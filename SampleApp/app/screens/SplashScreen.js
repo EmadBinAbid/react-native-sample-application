@@ -31,56 +31,46 @@ import {
 
 import { TextInput } from 'react-native-gesture-handler';
 
-class ImageLoader extends React.Component {
+
+export default class SplashScreen extends React.Component {
+
     state = {
         opacity: new Animated.Value(0),
     }
 
     onLoad = () => {
+
         Animated.timing(this.state.opacity, {
             toValue: 1,
             duration: 2000,
             useNativeDriver: true
-        }).start();
+        }).start(() => { this.props.navigation.navigate('Home') });
     }
 
     render() {
-        const { navigate } = this.props.navigation;
 
-        return (
-            <>
-                <Animated.Image
-                    onLoad={this.onLoad}
-                    {...this.props}
-                    // onLoadEnd={ () => { this.props.navigation.navigate('Home') } }
-                    style={[
-                        {
-                            opacity: this.state.opacity,
-                            transform: [
-                                {
-                                    scale: this.state.opacity.interpolate({
-                                        inputRange: [0, 1],
-                                        outputRange: [0.70, 1]
-                                    })
-                                }
-                            ]
-                        },
-                        this.props.style
-                    ]}
-                />
-            </>
-        )
-    }
-}
-
-export default class SplashScreen extends React.Component {
-    render() {
         return (
             <>
                 <View style={styles.container}>
-                    <ImageLoader source={require('../../assets/foodvise-logo.png')} />
+                    <Animated.Image
+                        onLoad={this.onLoad}
+                        source={require('../../assets/foodvise-logo.png')}
+                        {...this.props}
+                        style={[
+                            {
+                                opacity: this.state.opacity,
+                                transform: [
+                                    {
+                                        scale: this.state.opacity.interpolate({
+                                            inputRange: [0, 1],
+                                            outputRange: [0.70, 1]
+                                        })
+                                    }
+                                ]
+                            }
+                        ]}
+                    />
                 </View>
-
             </>
         )
     }
