@@ -56,7 +56,11 @@ export default class HomeScreen extends React.Component {
             <>
                 <StatusBar barStyle="dark-content" />
                 <View style={styles.container}>
-                    <Text> Hello, HomeScreen </Text>
+                    <Text>
+                        Hello, from the <Text style={ {color: '#db3545'} }>Foodvise</Text> team! We are glad that you're here. 
+                        Please help us in knowing you before taking a tour of Foodvise. 
+                        Thanks for your patience.
+                    </Text>
                     <TextInput
                         placeholder="Write your name here ..."
                         defaultValue={this.state.userName}
@@ -65,7 +69,7 @@ export default class HomeScreen extends React.Component {
 
                     <Button
                         title="Proceed"
-                        // onPress={this.handleClickProceed}
+                        color="#db3545"
                         onPress={() => {
                             if (this.state.userName) {
                                 

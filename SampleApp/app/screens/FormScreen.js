@@ -15,7 +15,8 @@ import {
     Text,
     StatusBar,
     Button,
-    Alert
+    Alert,
+    ActivityIndicator
 } from 'react-native';
 
 import {
@@ -41,7 +42,7 @@ export default class FormScreen extends React.Component {
     constructor() {
         super()
         this.state = {
-
+            isActivityIndicatorActive: false
         }
     }
 
@@ -55,13 +56,22 @@ export default class FormScreen extends React.Component {
                 <SafeAreaView>
                     <ScrollView>
                         <View style={styles.container}>
-                            <Text> Hi {userName}! Please enter your details </Text>
+                            <Text> Hi <Text style={ {color: '#db3545'} }>{userName}</Text>! Please enter your details. </Text>
 
                             <Formik
                                 initialValues={{ phoneNumber: '', email: '', password: '' }}
                                 validationSchema={ formSchema }
                                 onSubmit={(values) => {
-                                    Alert.alert("Success.");
+                                    this.setState({
+                                        isActivityIndicatorActive: true
+                                    });
+                                    setTimeout( () => {
+                                        this.setState({
+                                            isActivityIndicatorActive: false
+                                        });
+    
+                                        this.props.navigation.navigate('Status');
+                                    }, 3000);
                                 }  
                             }
                             >
@@ -101,13 +111,23 @@ export default class FormScreen extends React.Component {
                                                 {formikProps.touched.password && formikProps.errors.password}
                                             </Text>
 
-                                            <Button title="Submit" onPress={formikProps.handleSubmit}/>
+                                            <Button 
+                                            title="Submit" 
+                                            color="#db3545"
+                                            onPress={formikProps.handleSubmit}/>
                                         </View>
                                     )
                                 }
 
                             </Formik>
                         </View>
+                        
+                        {
+                        this.state.isActivityIndicatorActive ? 
+                        <ActivityIndicator size="large" />
+                        :
+                        <View></View>
+                        }
                     </ScrollView>
                 </SafeAreaView>
             </>
