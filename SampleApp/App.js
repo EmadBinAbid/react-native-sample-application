@@ -39,22 +39,22 @@ export default class App extends React.Component {
 }
 
 const AppNavigator = createStackNavigator({
+  Splash: {
+    screen: SplashScreen,
+    navigationOptions: {
+      headerShown: false
+    }
+  },
   Home: {
     screen: HomeScreen,
     navigationOptions: {
       headerStyle: {
         backgroundColor: '#db3545',
       },
-
       headerTitleStyle: {
         color: '#ffffff'
-      }
-    }
-  },
-  Splash: {
-    screen: SplashScreen,
-    navigationOptions: {
-      headerShown: false
+      },
+      headerLeft: () => null
     }
   },
   Form: {
