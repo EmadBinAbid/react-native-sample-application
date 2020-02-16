@@ -24,53 +24,66 @@ import {
   ReloadInstructions,
 } from 'react-native/Libraries/NewAppScreen';
 
-const App: () => React$Node = () => {
-  return (
-    <>
-      <StatusBar barStyle="dark-content" />
-      <SafeAreaView>
-        <ScrollView
-          contentInsetAdjustmentBehavior="automatic"
-          style={styles.scrollView}>
-          <Header />
-          {global.HermesInternal == null ? null : (
-            <View style={styles.engine}>
-              <Text style={styles.footer}>Engine: Hermes</Text>
-            </View>
-          )}
-          <View style={styles.body}>
-            <View style={styles.sectionContainer}>
-              <Text style={styles.sectionTitle}>Step One</Text>
-              <Text style={styles.sectionDescription}>
-                Edit <Text style={styles.highlight}>App.js</Text> to change this
-                screen and then come back to see your edits.
-              </Text>
-            </View>
-            <View style={styles.sectionContainer}>
-              <Text style={styles.sectionTitle}>See Your Changes</Text>
-              <Text style={styles.sectionDescription}>
-                <ReloadInstructions />
-              </Text>
-            </View>
-            <View style={styles.sectionContainer}>
-              <Text style={styles.sectionTitle}>Debug</Text>
-              <Text style={styles.sectionDescription}>
-                <DebugInstructions />
-              </Text>
-            </View>
-            <View style={styles.sectionContainer}>
-              <Text style={styles.sectionTitle}>Learn More</Text>
-              <Text style={styles.sectionDescription}>
-                Read the docs to discover what to do next:
-              </Text>
-            </View>
-            <LearnMoreLinks />
-          </View>
-        </ScrollView>
-      </SafeAreaView>
-    </>
-  );
-};
+import { createAppContainer } from 'react-navigation'
+import { createStackNavigator } from 'react-navigation-stack'
+
+import SplashScreen from './app/screens/SplashScreen';
+import HomeScreen from './app/screens/HomeScreen';
+import FormScreen from './app/screens/FormScreen';
+import StatusScreen from './app/screens/StatusScreen';
+
+export default class App extends React.Component {
+  render() {
+    return <AppContainer />; 
+  }
+}
+
+const AppNavigator = createStackNavigator({
+  Splash: {
+    screen: SplashScreen,
+    navigationOptions: {
+      headerShown: false
+    }
+  },
+  Home: {
+    screen: HomeScreen,
+    navigationOptions: {
+      headerStyle: {
+        backgroundColor: '#db3545',
+      },
+      headerTitleStyle: {
+        color: '#ffffff'
+      },
+      headerLeft: () => null
+    }
+  },
+  Form: {
+    screen: FormScreen,
+    navigationOptions: {
+      headerStyle: {
+        backgroundColor: '#db3545'
+      },
+
+      headerTitleStyle: {
+        color: '#ffffff'
+      }
+    }
+  },
+  Status: {
+    screen: StatusScreen,
+    navigationOptions: {
+      headerStyle: {
+        backgroundColor: '#db3545'
+      },
+
+      headerTitleStyle: {
+        color: '#ffffff'
+      }
+    }
+  }
+});
+
+const AppContainer = createAppContainer(AppNavigator);
 
 const styles = StyleSheet.create({
   scrollView: {
@@ -110,5 +123,3 @@ const styles = StyleSheet.create({
     textAlign: 'right',
   },
 });
-
-export default App;
