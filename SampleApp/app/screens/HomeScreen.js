@@ -14,6 +14,8 @@ import {
     View,
     Text,
     StatusBar,
+    Button,
+    Alert
 } from 'react-native';
 
 import {
@@ -24,23 +26,71 @@ import {
     ReloadInstructions,
 } from 'react-native/Libraries/NewAppScreen';
 
+import { TextInput } from 'react-native-gesture-handler';
+
 export default class HomeScreen extends React.Component {
+
+    constructor() {
+        super()
+        this.state = {
+            userName: ""
+        }
+
+        this.handleChangeUserName = this.handleChangeUserName.bind(this)
+    }
+
+    handleChangeUserName(_userName) {
+        this.setState(
+            {
+                userName: _userName
+            }
+        )
+    }
+
+    handleClickProceed() {
+        
+        // Navigate to FormScreen
+        // this.props.navigation.navigate('Form')
+
+    }
 
     render() {
         return (
             <>
-            <StatusBar barStyle="dark-content" />
-            <SafeAreaView>
-                <ScrollView>
-                    <Text> Hello, HomeScreen </Text>
-                </ScrollView>
-            </SafeAreaView>
+                <StatusBar barStyle="dark-content" />
+                <SafeAreaView>
+                    <ScrollView>
+                        <View style={styles.container}>
+                            <Text> Hello, HomeScreen </Text>
+                            <TextInput
+                                placeholder="Write your name here ..."
+                                defaultValue={this.state.userName}
+                                onChangeText={this.handleChangeUserName}
+                            />
+
+                            <Button 
+                                title="Proceed"
+                                // onPress={this.handleClickProceed}
+                                onPress={ () => {
+                                    this.props.navigation.navigate('Form');
+                                    
+                                }}
+                            />
+                        </View>
+
+                    </ScrollView>
+                    <Text>{this.state.userName}</Text>
+                </SafeAreaView>
             </>
         );
     }
 }
 
 const styles = StyleSheet.create({
-
+    container: {
+        flex: 1,
+        justifyContent: 'center',
+        padding: 20
+    }
 });
 
