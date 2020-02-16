@@ -15,7 +15,8 @@ import {
     Text,
     StatusBar,
     Button,
-    Alert
+    Alert,
+    ActivityIndicator
 } from 'react-native';
 
 import {
@@ -33,7 +34,8 @@ export default class HomeScreen extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
-            userName: ""
+            userName: "",
+            isActivityIndicatorActive: false
         }
 
         this.handleChangeUserName = this.handleChangeUserName.bind(this)
@@ -47,48 +49,55 @@ export default class HomeScreen extends React.Component {
         )
     }
 
-    handleClickProceed() {
-        
-        // Navigate to FormScreen
-        // this.props.navigation.navigate('Form')
-
-    }
-
     render() {
         const { navigate } = this.props.navigation;
 
         return (
             <>
                 <StatusBar barStyle="dark-content" />
-                <SafeAreaView>
-                    <ScrollView>
-                        <View style={styles.container}>
-                            <Text> Hello, HomeScreen </Text>
-                            <TextInput
-                                placeholder="Write your name here ..."
-                                defaultValue={this.state.userName}
-                                onChangeText={this.handleChangeUserName}
-                            />
+                <View style={styles.container}>
+                    <Text> Hello, HomeScreen </Text>
+                    <TextInput
+                        placeholder="Write your name here ..."
+                        defaultValue={this.state.userName}
+                        onChangeText={this.handleChangeUserName}
+                    />
 
-                            <Button 
-                                title="Proceed"
-                                // onPress={this.handleClickProceed}
-                                onPress={ () => {
-                                    if (this.state.userName) {
-                                        this.props.navigation.navigate('Form', {  
-                                            userName: this.state.userName
-                                        })
-                                    }
-                                    else {
-                                        Alert.alert("Error", "Please provide your name to proceed.");
-                                    }
-                                }}
-                            />
-                        </View>
+                    <Button
+                        title="Proceed"
+                        // onPress={this.handleClickProceed}
+                        onPress={() => {
+                            if (this.state.userName) {
+                                
+                                this.setState({
+                                    isActivityIndicatorActive: true
+                                });
+                                setTimeout( () => {
+                                    this.setState({
+                                        isActivityIndicatorActive: false
+                                    });
 
-                    </ScrollView>
-                    <Text>{this.state.userName}</Text>
-                </SafeAreaView>
+                                    this.props.navigation.navigate('Form', {
+                                        userName: this.state.userName
+                                    });
+                                }, 3000);
+                                
+                            }
+                            else {
+                                Alert.alert("Error", "Please provide your name to proceed.");
+                            }
+                        }}
+                    />
+
+                    {
+                        this.state.isActivityIndicatorActive ? 
+                        <ActivityIndicator size="large" />
+                        :
+                        <View></View>
+                    }
+                    
+                </View>
+
             </>
         );
     }
