@@ -27,8 +27,10 @@ import {
 import { createAppContainer } from 'react-navigation'
 import { createStackNavigator } from 'react-navigation-stack'
 
+import SplashScreen from './app/screens/SplashScreen';
 import HomeScreen from './app/screens/HomeScreen';
 import FormScreen from './app/screens/FormScreen';
+import StatusScreen from './app/screens/StatusScreen';
 
 export default class App extends React.Component {
   render() {
@@ -38,10 +40,46 @@ export default class App extends React.Component {
 
 const AppNavigator = createStackNavigator({
   Home: {
-    screen: HomeScreen
+    screen: HomeScreen,
+    navigationOptions: {
+      headerStyle: {
+        backgroundColor: '#db3545',
+      },
+
+      headerTitleStyle: {
+        color: '#ffffff'
+      }
+    }
+  },
+  Splash: {
+    screen: SplashScreen,
+    navigationOptions: {
+      headerShown: false
+    }
   },
   Form: {
-    screen: FormScreen
+    screen: FormScreen,
+    navigationOptions: {
+      headerStyle: {
+        backgroundColor: '#db3545'
+      },
+
+      headerTitleStyle: {
+        color: '#ffffff'
+      }
+    }
+  },
+  Status: {
+    screen: StatusScreen,
+    navigationOptions: {
+      headerStyle: {
+        backgroundColor: '#db3545'
+      },
+
+      headerTitleStyle: {
+        color: '#ffffff'
+      }
+    }
   }
 });
 
