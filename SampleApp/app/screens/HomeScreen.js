@@ -30,8 +30,8 @@ import { TextInput } from 'react-native-gesture-handler';
 
 export default class HomeScreen extends React.Component {
 
-    constructor() {
-        super()
+    constructor(props) {
+        super(props)
         this.state = {
             userName: ""
         }
@@ -55,6 +55,8 @@ export default class HomeScreen extends React.Component {
     }
 
     render() {
+        const { navigate } = this.props.navigation;
+
         return (
             <>
                 <StatusBar barStyle="dark-content" />
@@ -72,8 +74,14 @@ export default class HomeScreen extends React.Component {
                                 title="Proceed"
                                 // onPress={this.handleClickProceed}
                                 onPress={ () => {
-                                    this.props.navigation.navigate('Form');
-                                    
+                                    if (this.state.userName) {
+                                        this.props.navigation.navigate('Form', {  
+                                            userName: this.state.userName
+                                        })
+                                    }
+                                    else {
+                                        Alert.alert("Error", "Please provide your name to proceed.");
+                                    }
                                 }}
                             />
                         </View>
