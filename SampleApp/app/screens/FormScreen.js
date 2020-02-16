@@ -27,56 +27,88 @@ import {
 } from 'react-native/Libraries/NewAppScreen';
 
 import { TextInput } from 'react-native-gesture-handler';
+import { Formik } from 'formik';
+import * as yup from 'yup';
+
+const formSchema = yup.object({
+    phoneNumber: yup.number('Invalid number!').required('Phone number is required!'),
+    email: yup.string().email('Invalid e-mail!').required('E-mail is required!'),
+    password: yup.string().required('Password is required!')
+})
 
 export default class FormScreen extends React.Component {
 
     constructor() {
         super()
         this.state = {
-            userName: ""
+
         }
-
-        this.handleChangeUserName = this.handleChangeUserName.bind(this)
-    }
-
-    handleChangeUserName(_userName) {
-        this.setState(
-            {
-                userName: _userName
-            }
-        )
-    }
-
-    handleClickSubmit() {
-        // Submit Form
     }
 
     render() {
+        const { navigation } = this.props;  
+        const userName = navigation.getParam('userName', 'Undefined');
+
         return (
             <>
                 <StatusBar barStyle="dark-content" />
                 <SafeAreaView>
                     <ScrollView>
                         <View style={styles.container}>
-                            <Text> Hello, FormScreen </Text>
-                            <TextInput
-                                placeholder="Write your name here ..."
-                                defaultValue={this.state.userName}
-                                onChangeText={this.handleChangeUserName}
-                            />
+                            <Text> Hi {userName}! Please enter your details </Text>
 
-                            <Button
-                                title="Proceed"
-                                // onPress={this.handleClickSubmit}
-                                onPress={() => {
-                                    this.props.navigation.navigate('Home');
+                            <Formik
+                                initialValues={{ phoneNumber: '', email: '', password: '' }}
+                                validationSchema={ formSchema }
+                                onSubmit={(values) => {
+                                    Alert.alert("Success.");
+                                }  
+                            }
+                            >
 
-                                }}
-                            />
+                                {
+                                    (formikProps) => (
+                                        <View>
+                                            <TextInput
+                                                placeholder='Phone Number'
+                                                keyboardType='numeric'
+                                                onChangeText={formikProps.handleChange('phoneNumber')}
+                                                value={formikProps.values.phoneNumber}
+                                                onBlur={formikProps.handleBlur('phoneNumber')}
+                                            />
+                                            <Text style={styles.errorText}> 
+                                                {formikProps.touched.phoneNumber && formikProps.errors.phoneNumber} 
+                                            </Text>
+
+                                            <TextInput
+                                                placeholder='Email'
+                                                onChangeText={formikProps.handleChange('email')}
+                                                value={formikProps.values.email}
+                                                onBlur={formikProps.handleBlur('email')}
+                                            />
+                                            <Text style={styles.errorText}> 
+                                                {formikProps.touched.email && formikProps.errors.email}
+                                            </Text>
+
+                                            <TextInput
+                                                placeholder='Password'
+                                                onChangeText={formikProps.handleChange('password')}
+                                                secureTextEntry
+                                                value={formikProps.values.password}
+                                                onBlur={formikProps.handleBlur('password')}
+                                            />
+                                            <Text style={styles.errorText}>
+                                                {formikProps.touched.password && formikProps.errors.password}
+                                            </Text>
+
+                                            <Button title="Submit" onPress={formikProps.handleSubmit}/>
+                                        </View>
+                                    )
+                                }
+
+                            </Formik>
                         </View>
-
                     </ScrollView>
-                    <Text>{this.state.userName}</Text>
                 </SafeAreaView>
             </>
         );
@@ -88,6 +120,13 @@ const styles = StyleSheet.create({
         flex: 1,
         justifyContent: 'center',
         padding: 20
+    },
+
+    errorText: {
+        color: 'crimson',
+        fontWeight: 'bold',
+        marginBottom: 10,
+        marginTop: 6
     }
 });
 
