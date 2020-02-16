@@ -25,10 +25,10 @@ import {
 } from 'react-native/Libraries/NewAppScreen';
 
 import { createAppContainer } from 'react-navigation'
-
 import { createStackNavigator } from 'react-navigation-stack'
 
 import HomeScreen from './app/screens/HomeScreen';
+import FormScreen from './app/screens/FormScreen';
 
 export default class App extends React.Component {
   render() {
@@ -39,6 +39,9 @@ export default class App extends React.Component {
 const AppNavigator = createStackNavigator({
   Home: {
     screen: HomeScreen
+  },
+  Form: {
+    screen: FormScreen
   }
 });
 
